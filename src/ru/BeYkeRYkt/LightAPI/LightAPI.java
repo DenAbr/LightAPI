@@ -23,6 +23,7 @@ import ru.BeYkeRYkt.LightAPI.nms.BukkitImpl;
 import ru.BeYkeRYkt.LightAPI.nms.INMSHandler;
 import ru.BeYkeRYkt.LightAPI.nms.Cauldron.CauldronImpl;
 import ru.BeYkeRYkt.LightAPI.nms.CraftBukkit.CraftBukkitImpl;
+import ru.BeYkeRYkt.LightAPI.nms.PaperSpigot.PaperSpigotImpl;
 import ru.BeYkeRYkt.LightAPI.utils.Metrics;
 
 public class LightAPI extends JavaPlugin implements Listener {
@@ -39,8 +40,10 @@ public class LightAPI extends JavaPlugin implements Listener {
 		LightAPI.plugin = this;
 
 		this.support = new ArrayList<BukkitImpl>();
+		addSupportImplement(new PaperSpigotImpl());
 		addSupportImplement(new CraftBukkitImpl());
 		addSupportImplement(new CauldronImpl());
+		
 		if (!reloadInitHandler()) {
 			return;
 		}
@@ -65,7 +68,8 @@ public class LightAPI extends JavaPlugin implements Listener {
 
 					Response response = updater.getResult();
 					if (response == Response.SUCCESS) {
-						log(getServer().getConsoleSender(), ChatColor.GREEN + "New update is available: " + ChatColor.YELLOW + updater.getLatestVersion() + ChatColor.GREEN + "!");
+						log(getServer().getConsoleSender(), ChatColor.GREEN + "New update is available: "
+								+ ChatColor.YELLOW + updater.getLatestVersion() + ChatColor.GREEN + "!");
 						log(getServer().getConsoleSender(), ChatColor.GREEN + "Changes: ");
 						getServer().getConsoleSender().sendMessage(updater.getChanges());// for
 						// normal
@@ -79,7 +83,8 @@ public class LightAPI extends JavaPlugin implements Listener {
 	}
 
 	public void log(CommandSender sender, String message) {
-		sender.sendMessage(ChatColor.YELLOW + "<Light" + ChatColor.RED + "API" + ChatColor.YELLOW + ">: " + ChatColor.WHITE + message);
+		sender.sendMessage(ChatColor.YELLOW + "<Light" + ChatColor.RED + "API" + ChatColor.YELLOW + ">: "
+				+ ChatColor.WHITE + message);
 	}
 
 	@Override
@@ -142,6 +147,9 @@ public class LightAPI extends JavaPlugin implements Listener {
 
 	private BukkitImpl checkSupport(String name) {
 		for (BukkitImpl impl : support) {
+			if (getServer().getVersion().contains(impl.getNameImpl())) {
+				return impl; // need more beautiful solution
+			}
 			if (impl.getNameImpl().startsWith(name)) {
 				return impl;
 			}
@@ -192,7 +200,8 @@ public class LightAPI extends JavaPlugin implements Listener {
 
 						Response response = updater.getResult();
 						if (response == Response.SUCCESS) {
-							log(player, ChatColor.GREEN + "New update is available: " + ChatColor.YELLOW + updater.getLatestVersion() + ChatColor.GREEN + "!");
+							log(player, ChatColor.GREEN + "New update is available: " + ChatColor.YELLOW
+									+ updater.getLatestVersion() + ChatColor.GREEN + "!");
 							log(player, ChatColor.GREEN + "Changes: ");
 							player.sendMessage(updater.getChanges());// for
 																		// normal
