@@ -4,16 +4,16 @@ import ru.BeYkeRYkt.LightAPI.LightAPI;
 import ru.BeYkeRYkt.LightAPI.nms.BukkitImpl;
 
 /**
- * For CraftBukkit core
+ * For Spigot core
  * 
  * @author DinDev
  *
  */
-public class CraftBukkitImpl implements BukkitImpl {
+public class SpigotImpl implements BukkitImpl {
 
 	@Override
 	public String getNameImpl() {
-		return "CraftBukkit";
+		return "Spigot";
 	}
 
 	@Override
@@ -22,4 +22,5 @@ public class CraftBukkitImpl implements BukkitImpl {
 		String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 		return "ru.BeYkeRYkt.LightAPI.nms.CraftBukkit." + version + ".NMSHandler";
 	}
+
 }
