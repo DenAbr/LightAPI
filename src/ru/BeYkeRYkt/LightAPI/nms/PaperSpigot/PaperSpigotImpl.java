@@ -23,17 +23,5 @@ public class PaperSpigotImpl implements BukkitImpl {
 		String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 		return "ru.BeYkeRYkt.LightAPI.nms.PaperSpigot." + version + ".NMSHandler";
 	}
-	
-	@Override
-	public boolean hasPacketClass() {
-		String packageName = LightAPI.getInstance().getServer().getClass().getPackage().getName();
-		String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 
-		try {
-			Class.forName("net.minecraft.server." + version + ".Packet");
-			return true;
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
-	}
 }
